@@ -1,0 +1,239 @@
+#!/bin/bash
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+export PATH
+clear
+function checkos(){
+	if [ -f /etc/redhat-release ];then
+        OS=CentOS
+		echo "
+		
+		
+		Your OS is CentOS"
+    elif [ ! -z "`cat /etc/issue | grep bian`" ];then
+        OS=Debian
+		echo "
+		
+		
+		Your OS is Debian"
+    elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
+        OS=Ubuntu
+		echo "
+		
+		
+		Your OS is Ubuntu"
+    else
+        echo "Not support OS, Please reinstall OS and retry!"
+        exit 1
+    fi
+}
+	
+function update(){
+	if [ "$OS" == 'CentOS' ]; then
+		echo "ready to update and install some components"
+		sleep 5
+		yum update -y
+		yum remove http* apache* -y
+		yum install wget unzip tar python screen make gcc git -y
+	else
+		echo "ready to update and install some components"
+		sleep 5
+		apt-get update -y
+		apt-get remove http* apache* -y
+		apt-get install vim wget unzip tar python screen make gcc git -y
+	fi
+}
+
+function speedtest(){
+wget --no-check-certificate https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py
+chmod a+rx speedtest_cli.py
+mv speedtest_cli.py /usr/local/bin/speedtest-cli
+chown root:root /usr/local/bin/speedtest-cli
+#speedtest-cli
+}
+
+function ruisu(){
+read -p "Do you want to install free ServerSpeeder enter y to install others to skip" choice
+if [ "$choice" = "y" ]; then
+wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/serverspeeder/master/serverspeeder-all.sh
+bash serverspeeder-all.sh
+else
+echo "You do not want to install ServerSpeeder"
+sleep 3
+fi
+}
+
+function ddcc(){
+	if [ "$OS" == 'CentOS' ]; then
+	 yum install ctag* gcc-c++ perl -y
+	else
+	 apt-get install gcc ctags perl -y
+	fi
+read -p "Do you want to install DDCC script enter y to install others to skip" choiceddcc
+if [ "$choiceddcc" = "y" ]; then
+wget http://cos.looooool.cn/linux/lop.pl
+wget http://cos.looooool.cn/linux/webbench-1.5.tar.gz
+if [ ! -f "lop.pl" ]; then
+  echo "download faild change the mirrors"
+  sleep 2
+  wget  http://7u2tjs.com1.z0.glb.clouddn.com/lop.pl
+fi
+
+if [ ! -f "webbench-1.5.tar.gz" ]; then
+  echo "download faild change the mirrors"
+  sleep 2
+  wget http://blog.s135.com/soft/linux/webbench/webbench-1.5.tar.gz
+fi
+tar zxvf webbench-1.5.tar.gz
+cd webbench-1.5
+make && make install
+cd
+else
+echo "You do not want to install DDCC script"
+sleep 3
+fi
+}
+
+function socat(){
+
+read -p "Do you want to install socat enter y to install other to skip" choicesocat
+if [ "$choicesocat" = "y" ]; then
+ 	if [ "$OS" == 'CentOS' ]; then
+	 wget –no-cache http://www.convirture.com/repos/definitions/rhel/6.x/convirt.repo -O /etc/yum.repos.d/convirt.repo
+	 yum makecache
+	 yum install socat -y
+	else
+	 apt-get install socat -y
+	fi
+echo "You do not want to install socat"
+sleep 3
+fi
+
+
+}
+
+
+function installover(){
+echo "
+##############################################
+How to use it
+*****************************
+if you get the ddcc script
+run like this
+webbench -c Process -t Time websize address
+eg.:
+webbench -c 100 -t 60 http://eg.com/
+it means CC http://eg.com/ use 100 Process with 60 seconds.
+-----------------------------
+run this is to DDOS some Ipaddress
+perl lop.pl Ipaddress port size Time
+eg.:
+perl lop.pl 127.0.0.1 80 1024 120
+it means DDOS The 127.0.0.1 at port 80 use Packet-size 1024  with 120 seconds
+*******************************
+
+run speedtest-cli to test your network
+
+*******************************
+" >> /root/info.txt
+echo "
+	And there are more script below (you can run more to get these info again)
+*************************************
+run  bash start lnmp to install lnmp
+run  bash start ss to install shadowsocks
+***************************************
+
+#################################################
+
+Thanks for use :)
+
+" >> /etc/more.txt
+
+cat /root/info.txt
+cat /etc/more.txt
+}
+
+function oneinstack(){
+clear
+echo "ready to install oneinstack"
+sleep 5
+if [ "$OS" == 'CentOS' ]; then
+ yum update
+else 
+ apt-get update
+fi
+wget http://mirrors.linuxeye.com/oneinstack-full.tar.gz
+tar xzf oneinstack-full.tar.gz
+cd oneinstack
+./install.sh
+}
+
+function sspy(){
+clear
+echo "ready to install shadowsocks"
+sleep 5
+if [ "$OS" == 'CentOS' ]; then
+ yum update
+else 
+ apt-get update
+fi
+wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh
+chmod +x shadowsocks.sh
+./shadowsocks.sh 2>&1 | tee shadowsocks.log
+}
+
+
+function ss(){
+read -p "Which shandowsocks version you want to install \n press 1 to install python press 2 to install libev （default libev version）: \n" ssversion
+if [ "ssversion" == "1" ];then
+ wget --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/shadowsocks.sh
+ wget --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/ss.sh
+ chmod +x ss.sh
+ chmod +x shadowsocks.sh
+ ./shadowsocks.sh 2>&1 | tee shadowsocks.log
+else
+ if [ "$OS" == 'CentOS' ]; then
+  wget --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/Shadowsocks-libev.sh
+  wget --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/ss.sh
+  chmod +x ss.sh
+  chmod +x shadowsocks-libev.sh
+  ./shadowsocks-libev.sh 2>&1 | tee shadowsocks-libev.log
+ else 
+  wget --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/shadowsocks-libev-debian.sh
+  wget --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/ss.sh
+  chmod +x ss.sh
+  chmod +x shadowsocks-libev-debian.sh
+  ./shadowsocks-libev-debian.sh 2>&1 | tee shadowsocks-libev-debian.log
+ fi
+fi
+}
+
+
+function run(){
+start=`date +%s`
+checkos
+update
+speedtest
+ruisu
+ddcc
+installover
+stop=`date +%s`
+echo " script use  $[ stop - start ] seconds"
+}
+
+if [ ! -n "$1" ]; then
+ run
+elif [ $1 = "run" ]; then
+ run
+elif [ $1 = "lnmp" ]; then
+ oneinstack
+elif [ $1 = "ss" ]; then
+ ss
+ socat
+else 
+	echo "
+	print error bash start 
+	bash start lnmp to install lnmp
+	bash start ss to install shadowsocks
+	"
+	exit 1
+fi
