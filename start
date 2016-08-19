@@ -172,7 +172,7 @@ chmod +x shadowsocks.sh
 
 
 function ss(){
-read -p "Which shandowsocks version you want to install \n press 1 to install python press 2 to install libev （default libev version）: \n" ssversion
+read  -p "Which shandowsocks version you want to install  press 1 to install python press 2 to install libev （default libev version）: " ssversion
 if [ "ssversion" == "1" ];then
  wget --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/shadowsocks.sh
  wget --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/ss.sh
