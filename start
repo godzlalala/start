@@ -56,6 +56,8 @@ read -p "Do you want to install free ServerSpeeder enter y to install others to 
 if [ "$choice" = "y" ]; then
 wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/serverspeeder/master/serverspeeder-all.sh
 bash serverspeeder-all.sh
+wget -N --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/ss.sh
+chmod +x ss.sh
 else
 echo "You do not want to install ServerSpeeder"
 sleep 3
@@ -114,32 +116,19 @@ fi
 
 function installover(){
 echo "
-##############################################
-How to use it
-*****************************
-if you get the ddcc script
-run like this
-webbench -c Process -t Time websize address
-eg.:
-webbench -c 100 -t 60 http://eg.com/
-it means CC http://eg.com/ use 100 Process with 60 seconds.
------------------------------
-run this is to DDOS some Ipaddress
-perl lop.pl Ipaddress port size Time
-eg.:
-perl lop.pl 127.0.0.1 80 1024 120
-it means DDOS The 127.0.0.1 at port 80 use Packet-size 1024  with 120 seconds
 *******************************
 
 run speedtest-cli to test your network
 
 *******************************
-" >> /root/info.txt
+"
 echo "
 	And there are more script below (you can run more to get these info again)
 *************************************
 run  bash start lnmp to install lnmp
 run  bash start ss to install shadowsocks
+./ss.sh start/restart/stop/status/peizhi
+./rs.sh start/restart/stop/status/peizhi
 ***************************************
 
 #################################################
