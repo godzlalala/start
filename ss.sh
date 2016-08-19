@@ -24,7 +24,7 @@ else
  else
   vim /etc/shadowsocks.json
  fi
-  
+fi
 }
 
 function checkos(){
