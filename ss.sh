@@ -62,6 +62,8 @@ elif [ $1 = "restart" ]; then
  restart
  elif [ $1 = "status" ]; then
  status
+  elif [ $1 = "peizhi" ]; then
+ peizhi
 else 
 	echo "
 	print error bash start 
