@@ -106,6 +106,7 @@ if [ "$choicesocat" = "y" ]; then
 	else
 	 apt-get install socat -y
 	fi
+else
 echo "You do not want to install socat"
 sleep 3
 fi
@@ -218,6 +219,10 @@ elif [ $1 = "lnmp" ]; then
 elif [ $1 = "ss" ]; then
  ss
  socat
+elif [ $1 = "rs" ]; then
+ ruisu
+elif [ $1 = "ddcc" ]; then
+ ddcc
 else 
 	echo "
 	print error bash start 
