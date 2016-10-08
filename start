@@ -138,7 +138,6 @@ Thanks for use :)
 
 " >> /etc/more.txt
 
-cat /root/info.txt
 cat /etc/more.txt
 }
 
@@ -197,6 +196,20 @@ else
 fi
 }
 
+function swap(){
+
+read -p "Do you want to make swap file openvz is not support enter y to install others to skip " choice
+if [ "$choice" = "y" ]; then
+ read -p "Please enter the size of the swap file (MB) : " size
+ fallocate -l "$size"M /swapfile
+ chmod 600 /swapfile
+ mkswap /swapfile
+ swapon /swapfile
+ echo "/swapfile none swap defaults 0 0" >> /etc/fstab
+else
+ echo "you do not want to make swap file"
+fi
+}
 
 function run(){
 start=`date +%s`
@@ -204,6 +217,7 @@ checkos
 update
 speedtest
 ruisu
+swap
 ddcc
 installover
 stop=`date +%s`
@@ -223,6 +237,8 @@ elif [ $1 = "rs" ]; then
  ruisu
 elif [ $1 = "ddcc" ]; then
  ddcc
+elif [ $1 = "swap" ]; then
+ swap
 else 
 	echo "
 	print error bash start 
