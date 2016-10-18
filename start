@@ -211,6 +211,40 @@ else
 fi
 }
 
+function netspeeder(){
+if [ "$OS" == 'CentOS' ]; then
+ yum install virt-what -y
+ wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+ rpm -ivh epel-release-6-8.noarch.rpm
+ yum install libnet libpcap libnet-devel libpcap-devel
+ git clone https://github.com/snooda/net-speeder
+ cd net-speeder
+ sudo chmod +x ./build.sh
+ sudo bash ./build.sh
+ virt=virt-what
+ if [ "$virt" == "ovz" ]; then
+   nohup /root/net_speeder venet0 "ip" >/dev/null 2>&1 &
+ else
+   nohup /root/net_speeder eth0 "ip" >/dev/null 2>&1 &
+   echo "nohup /root/net_speeder eth0 "ip" >/dev/null 2>&1 &" >> /etc/rc.local
+ fi
+else
+ apt-get install virt-what -y
+ wget --no-check-certificate https://raw.githubusercontent.com/tennfy/debian_netspeeder_tennfy/master/debian_netspeeder_tennfy.sh
+ chmod a+x debian_netspeeder_tennfy.sh
+ bash debian_netspeeder_tennfy.sh
+ virt=virt-what
+ if [ "$virt" == "ovz" ]; then
+   nohup /root/net_speeder venet0 "ip" >/dev/null 2>&1 &
+ else
+   nohup /root/net_speeder eth0 "ip" >/dev/null 2>&1 &
+   echo "nohup /root/net_speeder eth0 "ip" >/dev/null 2>&1 &" >> /etc/rc.local
+ fi
+fi
+
+}
+
+
 function run(){
 start=`date +%s`
 checkos
@@ -237,8 +271,8 @@ elif [ $1 = "rs" ]; then
  ruisu
 elif [ $1 = "ddcc" ]; then
  ddcc
-elif [ $1 = "swap" ]; then
- swap
+elif [ $1 = "netspeeder" ]; then
+ netspeeder
 else 
 	echo "
 	print error bash start 
