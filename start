@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 clear
-function checkos(){
+
 	if [ -f /etc/redhat-release ];then
         OS=CentOS
 		echo "
@@ -25,7 +25,7 @@ function checkos(){
         echo "Not support OS, Please reinstall OS and retry!"
         exit 1
     fi
-}
+
 	
 function update(){
 	if [ "$OS" == 'CentOS' ]; then
@@ -65,6 +65,7 @@ fi
 }
 
 function ddcc(){
+
 	if [ "$OS" == 'CentOS' ]; then
 	 yum install ctag* gcc-c++ perl -y
 	else
@@ -142,6 +143,7 @@ cat /etc/more.txt
 }
 
 function oneinstack(){
+
 clear
 echo "ready to install oneinstack"
 sleep 5
@@ -157,6 +159,7 @@ cd oneinstack
 }
 
 function sspy(){
+
 clear
 echo "ready to install shadowsocks"
 sleep 5
@@ -172,6 +175,7 @@ chmod +x shadowsocks.sh
 
 
 function ss(){
+
 read  -p "Which shandowsocks version you want to install  press 1 to install python press 2 to install libev （default libev version）: " ssversion
 if [ "ssversion" == "1" ];then
  wget --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/shadowsocks.sh
@@ -184,8 +188,8 @@ else
   wget --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/Shadowsocks-libev.sh
   wget --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/ss.sh
   chmod +x ss.sh
-  chmod +x shadowsocks-libev.sh
-  ./shadowsocks-libev.sh 2>&1 | tee shadowsocks-libev.log
+  chmod +x Shadowsocks-libev.sh
+  ./Shadowsocks-libev.sh 2>&1 | tee shadowsocks-libev.log
  else 
   wget --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/shadowsocks-libev-debian.sh
   wget --no-check-certificate https://raw.githubusercontent.com/godzlalala/start/master/ss.sh
@@ -212,6 +216,8 @@ fi
 }
 
 function netspeeder(){
+
+
 if [ "$OS" == 'CentOS' ]; then
  yum install virt-what -y
  wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
@@ -247,7 +253,6 @@ fi
 
 function run(){
 start=`date +%s`
-checkos
 update
 speedtest
 ruisu
