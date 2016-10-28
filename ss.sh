@@ -51,7 +51,7 @@ elif [ $1 = "restart" ]; then
  elif [ $1 = "status" ]; then
  status
   elif [ $1 = "config" ]; then
- peizhi
+ config
 else 
 	echo "
 	print error ./ss.sh $1
