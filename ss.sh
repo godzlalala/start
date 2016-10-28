@@ -10,7 +10,7 @@ function restart(){
 function status(){
 /etc/init.d/shadowsocks status
 }
-function peizhi(){
+function config(){
 checkos
 if [ ! -f "/etc/shadowsocks.json" ]; then
  if [ "$OS" == 'CentOS' ]; then
@@ -30,22 +30,10 @@ fi
 function checkos(){
 	if [ -f /etc/redhat-release ];then
         OS=CentOS
-		echo "
-		
-		
-		Your OS is CentOS"
     elif [ ! -z "`cat /etc/issue | grep bian`" ];then
         OS=Debian
-		echo "
-		
-		
-		Your OS is Debian"
     elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
         OS=Ubuntu
-		echo "
-		
-		
-		Your OS is Ubuntu"
     else
         echo "Not support OS, Please reinstall OS and retry!"
         exit 1
@@ -62,13 +50,15 @@ elif [ $1 = "restart" ]; then
  restart
  elif [ $1 = "status" ]; then
  status
-  elif [ $1 = "peizhi" ]; then
+  elif [ $1 = "config" ]; then
  peizhi
 else 
 	echo "
-	print error bash start 
-	bash start lnmp to install lnmp
-	bash start ss to install shadowsocks
+	print error ./ss.sh $1
+	./ss.sh start to start shadowsocks
+	./ss.sh stop to stop shadowsocks
+	./ss.sh status to view shadowsocks
+	./ss.sh config to vim shadowsocks's confing
 	"
 	exit 1
 fi
